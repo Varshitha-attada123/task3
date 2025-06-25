@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> TASK3 </title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 3 Project - ApexPlanet Internship</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 1rem;
+    }
+
+    .carousel {
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .carousel-buttons button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .carousel-buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    .joke-section {
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+
+    .joke-section button {
+      cursor: pointer;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .joke-section button:hover {
+      background-color: #1e7e34;
+    }
+
+    footer {
+      background-color: #222;
+      color: white;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 20px;
+      }
+
+      .carousel-buttons button,
+      .joke-section button {
+        width: 80%;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Task 3: Carousel & API Fetch with Responsive Design</h1>
+  </header>
+
+  <section class="carousel">
+    <img id="carousel-image" src="" alt="carousel image" />
+    <div class="carousel-buttons">
+      <button onclick="prevImage()">Previous</button>
+      <button onclick="nextImage()">Next</button>
+    </div>
+  </section>
+
+  <section class="joke-section">
+    <h2>Need a laugh? Get a random joke:</h2>
+    <button onclick="fetchJoke()">Get Joke</button>
+    <p id="joke" style="padding: 1rem; font-style: italic;"></p>
+  </section>
+
+  
+
+  <script>
+ 
+    const images = [
+      "https://picsum.photos/id/1015/640/480",
+      "https://picsum.photos/id/1011/640/480",
+      "https://picsum.photos/id/1005/640/480",
+      "https://picsum.photos/id/1020/640/480"
+    ];
+    let current = 0;
+
+    function showImage(index) {
+      document.getElementById("carousel-image").src = images[index];
+    }
+
+    function nextImage() {
+      current = (current + 1) % images.length;
+      showImage(current);
+    }
+
+    function prevImage() {
+      current = (current - 1 + images.length) % images.length;
+      showImage(current);
+    }
+
+    
+    showImage(current);
+
+   
+    async function fetchJoke() {
+      const jokeElement = document.getElementById("joke");
+      jokeElement.innerText = "Loading joke...";
+      try {
+        const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+        const data = await response.json();
+        jokeElement.innerText = `${data.setup} - ${data.punchline}`;
+      } catch (error) {
+        jokeElement.innerText = "Failed to fetch joke. Try again later.";
+      }
+    }
+  </script>
+</body>
+</html>
